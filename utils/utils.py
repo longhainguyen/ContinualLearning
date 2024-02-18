@@ -29,10 +29,14 @@ from monai.data import decollate_batch
 from monai.transforms import Invertd, SaveImaged
 
 # NUM_CLASS = 32
-NUM_CLASS = 6
+NUM_CLASS = 13
 
 TEMPLATE={
-    '01': [1,2,3,4,5,6],
+    '01': [1,2,3,4,5,6,7,8,9,10,11,12,13],
+    '02': [1,3,4,5,6,7,11],
+    '03': [6],
+    '04': [2,3], # post process
+    '05': [6,1,3,2,7,4,5,11,12,13]
 }
 
 # TEMPLATE={
