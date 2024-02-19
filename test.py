@@ -93,12 +93,12 @@ def validation(model, ValLoader, val_transforms, args):
             case_name = name[b].split('/')[-1]
             content = f'case {case_name} | '
             template_key = get_key(name[b])
-            # organ_list = TEMPLATE[template_key]
+            organ_list = TEMPLATE[template_key]
             # pred_hard_post = organ_post_process(pred_hard, args.organ_list)
             # pred_hard_post = torch.tensor(pred_hard_post)
             pred_hard_post = pred_hard
 
-            for organ in args.organ_list:
+            for organ in organ_list:
                 if torch.sum(label[b,organ-1,:,:,:].cuda()) != 0:
                     dice_organ, recall, precision = dice_score(pred_hard_post[b,organ-1,:,:,:].cuda(), label[b,organ-1,:,:,:].cuda())
                     dice_list[template_key][0][organ-1] += dice_organ.item()
@@ -113,7 +113,7 @@ def validation(model, ValLoader, val_transforms, args):
             # label_store = (label.numpy()).astype(np.uint8)
             
             one_channel_pred = label.new_zeros((D, H, W))
-            for icls in args.organ_list:
+            for icls in organ_list:
                 one_channel_pred[pred_hard_post[0, icls-1] == 1] = icls
             # import pdb; pdb.set_trace()
             # np.savez_compressed(save_dir + '/predict/' + name[0].split('/')[0] + name[0].split('/')[-1], 
@@ -149,9 +149,9 @@ def validation(model, ValLoader, val_transforms, args):
 
     with open(os.path.join(save_dir, f'result.txt'), 'w') as f:
         for key in TEMPLATE.keys():
-            # organ_list = TEMPLATE[key]
+            organ_list = TEMPLATE[key]
             content = 'Task%s| '%(key)
-            for organ in args.organ_list:
+            for organ in organ_list:
                 dice = dice_list[key][0][organ-1] / dice_list[key][1][organ-1]
                 content += '%s: %.4f, '%(ORGAN_NAME[organ-1], dice)
                 ave_organ_dice[0][organ-1] += dice_list[key][0][organ-1]
@@ -160,7 +160,7 @@ def validation(model, ValLoader, val_transforms, args):
             f.write(content)
             f.write('\n')
         content = 'Average | '
-        for i in args.organ_list:
+        for i in organ_list:
             content += '%s: %.4f, '%(ORGAN_NAME[i-1], ave_organ_dice[0][i-1] / ave_organ_dice[1][i-1])
         print(content)
         f.write(content)
