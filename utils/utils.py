@@ -32,11 +32,8 @@ from monai.transforms import Invertd, SaveImaged
 NUM_CLASS = 6
 
 TEMPLATE={
-    '01': [1,2,3,4,5,6],
-    '02': [1,3,4,5,6],
-    '03': [6],
-    '08': [6, 2, 3, 1],
-    '05': [2,3], # post process
+    '01': [1,2,3,4,5,6,7,8,9,10,11,12,13],
+    '04': [6,27]
 }
 
 # TEMPLATE={
