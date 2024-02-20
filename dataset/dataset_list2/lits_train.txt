@@ -93,4 +93,3 @@
 04_lits/images/volume-92.nii 04_lits/labels/segmentation-92.nii
 04_lits/images/volume-93.nii 04_lits/labels/segmentation-93.nii
 04_lits/images/volume-94.nii 04_lits/labels/segmentation-94.nii
-04_lits/images/volume-95.nii 04_lits/labels/segmentation-95.nii
