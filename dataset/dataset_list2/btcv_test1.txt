@@ -1,0 +1,12 @@
+01_btcv/images/img0031.nii 01_btcv/labels/label0031.nii
+01_btcv/images/img0032.nii 01_btcv/labels/label0032.nii
+01_btcv/images/img0033.nii 01_btcv/labels/label0033.nii
+01_btcv/images/img0034.nii 01_btcv/labels/label0034.nii
+01_btcv/images/img0035.nii 01_btcv/labels/label0035.nii
+01_btcv/images/img0021.nii 01_btcv/labels/label0021.nii
+01_btcv/images/img0022.nii 01_btcv/labels/label0022.nii
+01_btcv/images/img0023.nii 01_btcv/labels/label0023.nii
+01_btcv/images/img0024.nii 01_btcv/labels/label0024.nii
+01_btcv/images/img0025.nii 01_btcv/labels/label0025.nii
+01_btcv/images/img0026.nii 01_btcv/labels/label0026.nii
+01_btcv/images/img0027.nii 01_btcv/labels/label0027.nii
