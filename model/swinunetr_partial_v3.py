@@ -370,7 +370,8 @@ class SwinUNETR(nn.Module):
             task_encoding = task_encoding.unsqueeze(2).unsqueeze(2).unsqueeze(2)
         # task_encoding torch.Size([31, 256, 1, 1, 1])
 
-        x_feat = self.GAP(dec4)
+        # x_feat = self.GAP(dec4)
+        x_feat = Conv3DNet(dec4)
         b = x_feat.shape[0]
         logits_array = []
 
@@ -401,6 +402,17 @@ class SwinUNETR(nn.Module):
         else:
             return logits_array
 
+class Conv3DNet(nn.Module):
+    def __init__(self):
+        super(Conv3DNet, self).__init__()
+        self.conv1 = nn.Conv3d(768, 512, kernel_size=3, padding=1, stride=1)
+        self.conv2 = nn.Conv3d(512, 256, kernel_size=3, padding=1, stride=2)
+        self.activation = nn.ReLU()
+
+    def forward(self, x):
+        x = self.activation(self.conv1(x))
+        x = self.activation(self.conv2(x))
+        return x
 
 def window_partition(x, window_size):
     """window partition operation based on: "Liu et al.,
