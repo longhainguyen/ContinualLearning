@@ -223,6 +223,13 @@ class SwinUNETR(nn.Module):
             nn.Conv3d(768, 256, kernel_size=1, stride=1, padding=0)
         )
 
+        self.GAP_dec = nn.Sequential(
+            nn.GroupNorm(16, 768),
+            nn.ReLU(inplace=True),
+            nn.AdaptiveAvgPool3d((1,1,1)),
+            nn.Conv3d(768, 256, kernel_size=1, stride=1, padding=0)
+        )
+
         self.weight_nums = [8*8, 8*8, 8*1]
         self.bias_nums = [8, 8, 1]
         # self.controller = nn.Conv3d(256+256, sum(self.weight_nums + self.bias_nums), kernel_size=1, stride=1, padding=0)
@@ -341,6 +348,7 @@ class SwinUNETR(nn.Module):
         return x
 
     def forward(self, x_in, return_feature=False):
+        # x : torch.Size([1, 1, 96, 96, 96])
         hidden_states_out = self.swinViT(x_in, self.normalize)
         enc0 = self.encoder1(x_in)
         enc1 = self.encoder2(hidden_states_out[0])
@@ -370,8 +378,13 @@ class SwinUNETR(nn.Module):
             task_encoding = task_encoding.unsqueeze(2).unsqueeze(2).unsqueeze(2)
         # task_encoding torch.Size([31, 256, 1, 1, 1])
 
-        x_feat = self.GAP(dec4)
-        # x_feat = Conv3DNet(dec4)
+        x_feat_enc = self.GAP(dec4)
+        x_feat_dec = self.GAP_dec(out)
+
+        x_feat = torch.mean(torch.stack([x_feat_enc, x_feat_dec], dim=0), dim=0)
+        # dec4 torch.Size([1, 768, 3, 3, 3])
+        # x_feat torch.Size([1, 256, 1, 1, 1])
+        # out torch.Size([1, 48, 96, 96, 96])
         b = x_feat.shape[0]
         logits_array = []
 
