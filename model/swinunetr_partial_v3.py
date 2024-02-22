@@ -370,8 +370,8 @@ class SwinUNETR(nn.Module):
             task_encoding = task_encoding.unsqueeze(2).unsqueeze(2).unsqueeze(2)
         # task_encoding torch.Size([31, 256, 1, 1, 1])
 
-        # x_feat = self.GAP(dec4)
-        x_feat = Conv3DNet(dec4)
+        x_feat = self.GAP(dec4)
+        # x_feat = Conv3DNet(dec4)
         b = x_feat.shape[0]
         logits_array = []
 
